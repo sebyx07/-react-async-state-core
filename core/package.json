@@ -1,6 +1,6 @@
 {
   "name": "@react-async-state/core",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A core utility for managing async states in React.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

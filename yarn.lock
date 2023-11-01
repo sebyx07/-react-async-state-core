@@ -1308,7 +1308,7 @@
   resolved "file:"
 
 "@react-async-state/core@file:/home/superuser/workspace/lab-react/packages/@react-async-state/core":
-  version "1.0.3"
+  version "1.0.4"
   resolved "file:core"
 
 "@remix-run/router@1.11.0":
