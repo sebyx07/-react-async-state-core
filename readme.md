@@ -142,8 +142,12 @@ export const Example3Page: React.FC = () => {
           </div>
   )
 }
-
 ```
+
+### Other storage options
+
+Check out 
+
 
 ## API
 
