@@ -1,6 +1,6 @@
 {
   "name": "@react-async-state/core",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "A core utility for managing async states in React.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -10,7 +10,12 @@
     "type": "git",
     "url": "https://github.com/sebyx07/-react-async-state-core.git"
   },
-  "keywords": ["react", "async", "state", "hook"],
+  "keywords": [
+    "react",
+    "async",
+    "state",
+    "hook"
+  ],
   "browserslist": [
     "last 2 versions",
     "> 0.25%",
@@ -21,7 +26,9 @@
     "node": ">=14.0.0",
     "npm": ">=6.0.0"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "peerDependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
