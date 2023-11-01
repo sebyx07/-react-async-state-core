@@ -72,6 +72,7 @@ export class IndexedDBStorage<T> {
   }
 
   async get(id: string): Promise<T | undefined> {
+    await this.ensureInitialized()
     return new Promise<T | undefined>((resolve, reject) => {
       const store = this.getStore('readonly')
       const request = store.get(id)

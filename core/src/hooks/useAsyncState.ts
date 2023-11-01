@@ -28,7 +28,7 @@ type UseAsyncStateOptions<T> = {
   onLoaded?: (data: T) => void
   onSuccess?: (data: T) => void
   onError?: (error: Error) => void
-  onLoading?: (cachingOptions: { cacheKey?: string }) => T | void
+  onLoading?: (cachingOptions: { cacheKey?: string }) => T | Promise<T> | void
   onRetry?: (remainingRetries: number) => void
 }
 
@@ -47,17 +47,25 @@ export const useAsyncState = <T>(
     let isCancelled = false
     let retries = options?.retry?.count || 0
     const cache = options?.cache || {}
-    if (options?.onLoading) {
-      const cachedData = options.onLoading(cache)
-      if (cachedData) {
-        setState({ loading: false, result: cachedData as T, error: null })
-        if (options.onSuccess) options.onSuccess(cachedData as T)
-        if (options.onLoaded) options.onLoaded(cachedData as T)
-        return
-      }
-    }
 
-    const execute = () => {
+    const execute = async () => {
+      // Handle the cached data logic
+      if (options?.onLoading) {
+        try {
+          const cachedData = await options.onLoading(cache)
+          if (cachedData && !isCancelled) {
+            setState({ loading: false, result: cachedData as T, error: null })
+            if (options.onSuccess) options.onSuccess(cachedData as T)
+            if (options.onLoaded) options.onLoaded(cachedData as T)
+            return // Exit early if we have cached data
+          }
+        } catch (cacheError) {
+          // Handle error related to cache fetching if necessary
+          console.error('Error fetching cached data:', cacheError)
+        }
+      }
+
+      // Execute the primary logic
       const promise = new Promise<T>((resolve, reject) => {
         callback(resolve, reject)
       })
