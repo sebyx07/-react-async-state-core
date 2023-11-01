@@ -1,4 +1,3 @@
-import React from 'react'
 import { useAsyncState } from '@react-async-state/core'
 
 export const Example3Page: React.FC = () => {
@@ -23,7 +22,7 @@ export const Example3Page: React.FC = () => {
   }
 
   const beforeLoad = (cacheKey: string) => {
-    const cachedData = fetchFromLocalStorage(cacheKey)
+    const cachedData = fetchFromLocalStorage(cacheKey || '')
     return cachedData ? JSON.parse(cachedData) : null
   }
 
@@ -37,21 +36,20 @@ export const Example3Page: React.FC = () => {
   }
 
   const { AsyncComponent } = useAsyncState(
-    (resolve, reject) => {
-      const cachedData = beforeLoad(cacheOptions.cacheKey)
-      if (cachedData) {
-        resolve(cachedData)
-      } else {
-        setTimeout(() => {
-          resolve('Data loaded after 2 seconds!')
-        }, 2000)
-      }
+    (resolve) => {
+      setTimeout(() => {
+        resolve('Data loaded after 2 seconds!')
+      }, 2000)
     },
     [],
     {
       retry: retryOptions,
       cache: cacheOptions,
       onLoaded,
+      onLoading: (cachingOptions: { cacheKey?: string }) => {
+        const cachedData = fetchFromLocalStorage(cachingOptions.cacheKey || '')
+        return cachedData ? JSON.parse(cachedData) : null
+      },
     },
   )
 

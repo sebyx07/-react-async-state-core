@@ -4,9 +4,9 @@ import { useState } from 'react'
 
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import { HomePage } from './pages/home'
-import {Example3Page} from "./pages/example-3";
-import {Example1Page} from "./pages/example-1";
-import {Example2Page} from "./pages/example-2";
+import { Example3Page } from './pages/example-3'
+import { Example1Page } from './pages/example-1'
+import { Example2Page } from './pages/example-2'
 
 function App() {
   const [state, setState] = useState({})

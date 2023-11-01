@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 
-// Define the types
 type AsyncState<T> = {
   loading: boolean
   result: T | null
@@ -29,7 +28,7 @@ type UseAsyncStateOptions<T> = {
   onLoaded?: (data: T) => void
   onSuccess?: (data: T) => void
   onError?: (error: Error) => void
-  onLoading?: () => void
+  onLoading?: (cachingOptions: { cacheKey?: string }) => T | void
   onRetry?: (remainingRetries: number) => void
 }
 
@@ -47,6 +46,16 @@ export const useAsyncState = <T>(
   useEffect(() => {
     let isCancelled = false
     let retries = options?.retry?.count || 0
+    const cache = options?.cache || {}
+    if (options?.onLoading) {
+      const cachedData = options.onLoading(cache)
+      if (cachedData) {
+        setState({ loading: false, result: cachedData as T, error: null })
+        if (options.onSuccess) options.onSuccess(cachedData as T)
+        if (options.onLoaded) options.onLoaded(cachedData as T)
+        return
+      }
+    }
 
     const execute = () => {
       const promise = new Promise<T>((resolve, reject) => {
@@ -70,25 +79,19 @@ export const useAsyncState = <T>(
           if (options?.retry && retries > 0) {
             setTimeout(() => {
               retries--
-              if (options?.onRetry) options.onRetry(retries)
+              if (options.onRetry) options.onRetry(retries)
               execute()
             }, options.retry.retryDelay)
           }
         })
     }
 
-    if (options?.onLoading) options.onLoading()
     execute()
 
     return () => {
       isCancelled = true
     }
-  }, deps) // eslint-disable-line react-hooks/exhaustive-deps
-
-  const setSuccess = (data: T) => {
-    setState({ loading: false, result: data, error: null })
-    if (options?.onSuccess) options.onSuccess(data)
-  }
+  }, deps)
 
   const AsyncComponent: React.FC<AsyncComponentProps<T>> = ({
     suspense,
@@ -104,6 +107,5 @@ export const useAsyncState = <T>(
   return {
     AsyncComponent,
     state,
-    setSuccess,
   }
 }

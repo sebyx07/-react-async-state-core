@@ -13,18 +13,16 @@ export const Example2Page: React.FC = () => {
     [],
     {
       onSuccess: (data) => {
-        alert(`Loaded: ${data}`);
+        alert(`Loaded: ${data}`)
       },
-    }
+    },
   )
 
   return (
     <div>
       <div>
         <b>State:</b>
-        <span>
-          {JSON.stringify(state, null, 2)}
-        </span>
+        <span>{JSON.stringify(state, null, 2)}</span>
       </div>
       <AsyncComponent
         suspense={() => <div>Loading...</div>}
