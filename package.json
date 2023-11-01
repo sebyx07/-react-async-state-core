@@ -4,7 +4,10 @@
     "core",
     "example"
   ],
+  "scripts": {
+    "lint": "prettier --write './core/src/**/*.{ts,tsx}' './example/src/**/*.{ts,tsx}'"
+  },
   "devDependencies": {
-
+    "prettier": "^3.0.3"
   }
 }

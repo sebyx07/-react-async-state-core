@@ -1,11 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from "./app";
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './app'
 
 const DemoApp: React.FC = () => {
-  return(
-    <App/>
-  )
-};
+  return <App />
+}
 
-ReactDOM.render(<DemoApp />, document.getElementById('root'));
+ReactDOM.render(<DemoApp />, document.getElementById('root'))

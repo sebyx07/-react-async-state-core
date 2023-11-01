@@ -1,21 +1,16 @@
-import React from "react";
-import {AppContext} from "./contexts/app-context";
-import {useState} from "react";
+import React from 'react'
+import { AppContext } from './contexts/app-context'
+import { useState } from 'react'
 
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link
-} from 'react-router-dom';
-import {HomePage} from "./pages/home";
-import {Example1Page} from "./pages/example-1";
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import { HomePage } from './pages/home'
+import { Example1Page } from './pages/example-1'
 
 function App() {
   const [state, setState] = useState({})
 
   return (
-    <AppContext.Provider value={{state, setState}}>
+    <AppContext.Provider value={{ state, setState }}>
       <Router>
         <div>
           <nav>
@@ -30,13 +25,13 @@ function App() {
           </nav>
 
           <Routes>
-            <Route path="/example-1" element={<Example1Page/>}/>
-            <Route path="/" element={<HomePage/>}/>
+            <Route path="/example-1" element={<Example1Page />} />
+            <Route path="/" element={<HomePage />} />
           </Routes>
         </div>
       </Router>
     </AppContext.Provider>
-  );
+  )
 }
 
-export default App;
+export default App

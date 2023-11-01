@@ -1,59 +1,59 @@
-import React from 'react';
-import { useAsyncState } from '@react-async-state/core';
+import React from 'react'
+import { useAsyncState } from '@react-async-state/core'
 
 export const Example1Page: React.FC = () => {
   const retryOptions = {
     count: 3,
-    retryDelay: 500
-  };
+    retryDelay: 500,
+  }
   const cacheOptions = {
-    cacheKey: '1234'
-  };
+    cacheKey: '1234',
+  }
 
   const fetchFromLocalStorage = (key: string): string | null => {
-    return localStorage.getItem(key);
-  };
+    return localStorage.getItem(key)
+  }
 
   const saveToLocalStorage = (key: string, data: string) => {
-    localStorage.setItem(key, data);
-  };
+    localStorage.setItem(key, data)
+  }
 
   const clearFromLocalStorage = (key: string) => {
-    localStorage.removeItem(key);
-  };
+    localStorage.removeItem(key)
+  }
 
   const beforeLoad = (cacheKey: string) => {
-    const cachedData = fetchFromLocalStorage(cacheKey);
-    return cachedData ? JSON.parse(cachedData) : null;
-  };
+    const cachedData = fetchFromLocalStorage(cacheKey)
+    return cachedData ? JSON.parse(cachedData) : null
+  }
 
   const onLoaded = (data: string) => {
-    saveToLocalStorage(cacheOptions.cacheKey, JSON.stringify(data));
-  };
+    saveToLocalStorage(cacheOptions.cacheKey, JSON.stringify(data))
+  }
 
   const handleClearCache = () => {
-    clearFromLocalStorage(cacheOptions.cacheKey);
-    alert('Cache cleared!');
-  };
+    clearFromLocalStorage(cacheOptions.cacheKey)
+    alert('Cache cleared!')
+  }
 
   const { AsyncComponent } = useAsyncState(
     (resolve, reject) => {
-      const cachedData = beforeLoad(cacheOptions.cacheKey);
+      const cachedData = beforeLoad(cacheOptions.cacheKey)
       if (cachedData) {
-        resolve(cachedData);
+        resolve(cachedData)
       } else {
         setTimeout(() => {
-          resolve("Data loaded after 2 seconds!");
-        }, 2000);
+          resolve('Data loaded after 2 seconds!')
+        }, 2000)
       }
     },
     [],
     {
       retry: retryOptions,
       cache: cacheOptions,
-      onLoaded
-    }
-  );
+      onLoaded,
+    },
+  )
 
   return (
     <div>
@@ -69,5 +69,5 @@ export const Example1Page: React.FC = () => {
         )}
       />
     </div>
-  );
-};
+  )
+}
